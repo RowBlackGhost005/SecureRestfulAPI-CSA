@@ -1,7 +1,6 @@
 package com.marin.Secure.Restful.API.entities;
 
 import jakarta.persistence.*;
-import org.hibernate.id.factory.spi.GenerationTypeStrategy;
 
 @Entity
 @Table(name = "Roles")

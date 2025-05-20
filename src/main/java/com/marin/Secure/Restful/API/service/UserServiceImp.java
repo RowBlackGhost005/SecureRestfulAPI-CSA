@@ -1,6 +1,5 @@
 package com.marin.Secure.Restful.API.service;
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.marin.Secure.Restful.API.dto.UserRegistryDTO;
 import com.marin.Secure.Restful.API.entities.Role;
 import com.marin.Secure.Restful.API.entities.User;
@@ -34,8 +33,6 @@ public class UserServiceImp implements UserService {
         Role userRole = roleRepository.findByName("User").orElseThrow();
 
         user.getRoles().add(userRole);
-
-        System.err.println(user.getRoles().toArray());
 
         return userRepository.save(user);
     }
