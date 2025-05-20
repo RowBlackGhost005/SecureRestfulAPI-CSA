@@ -1,9 +1,7 @@
 package com.marin.Secure.Restful.API.security;
 
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
-import io.jsonwebtoken.security.SecretKeyBuilder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,6 +16,8 @@ public class JwtUtil {
 
     private final SecretKey secretKey;
 
+    private final int ONE_DAY_MILIS = 86400000;
+
 
     private JwtUtil(@Value("${jwt.secret}") String secret){
         secretKey = Keys.hmacShaKeyFor(secret.getBytes());
@@ -28,7 +28,7 @@ public class JwtUtil {
                 .subject(userDetails.getUsername())
                 .claim("roles", userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList())
                 .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + 86400000 ))
+                .expiration(new Date(System.currentTimeMillis() + ONE_DAY_MILIS))
                 .signWith(secretKey , Jwts.SIG.HS256)
                 .compact();
     }

@@ -47,7 +47,7 @@ public class AuthController {
 
         String jwt = jwtUtil.generateToken(userDetails);
 
-        return ResponseEntity.ok(jwt); // Returns JWT
+        return ResponseEntity.ok(jwt);
     }
 
 }
