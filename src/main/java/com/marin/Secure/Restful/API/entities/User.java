@@ -2,6 +2,9 @@ package com.marin.Secure.Restful.API.entities;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Table(name = "users")
 public class User {
@@ -16,18 +19,22 @@ public class User {
     @Column(length = 255)
     private String password;
 
-    @ManyToOne
-    @JoinColumn(name = "role")
-    private Role role;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles = new HashSet<>();
 
     public User() {
     }
 
-    public User(int id, String username, String password, Role role) {
+    public User(int id, String username, String password, Set<Role> role) {
         this.id = id;
         this.username = username;
         this.password = password;
-        this.role = role;
+        this.roles = role;
     }
 
     public int getId() {
@@ -54,11 +61,11 @@ public class User {
         this.password = password;
     }
 
-    public Role getRole() {
-        return role;
+    public Set<Role> getRoles() {
+        return roles;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
+    public void setRoles(Set<Role> role) {
+        this.roles = role;
     }
 }
