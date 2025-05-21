@@ -5,5 +5,5 @@ CREATE TABLE IF NOT EXISTS Roles (
 );
 
 INSERT IGNORE INTO Roles (name) VALUES
-("USER"),
-("ADMIN");
+("ADMIN"),
+("USER");
