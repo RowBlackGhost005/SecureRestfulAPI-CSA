@@ -4,12 +4,14 @@ import com.marin.Secure.Restful.API.dto.UserRegistryDTO;
 import com.marin.Secure.Restful.API.security.JwtUtil;
 import com.marin.Secure.Restful.API.service.CustomUserDetailsService;
 import com.marin.Secure.Restful.API.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,10 +34,15 @@ public class AuthController {
     JwtUtil jwtUtil;
 
     @PostMapping("/register")
-    public ResponseEntity<String> registerUser(@RequestBody @Validated UserRegistryDTO userDTO){
-        userService.registerUser(userDTO);
+    public ResponseEntity<String> registerUser(@Valid @RequestBody UserRegistryDTO userDTO){
 
-        return ResponseEntity.ok("User registered successfully");
+        try{
+            userService.registerUser(userDTO);
+            return ResponseEntity.ok("User registered successfully");
+        }catch(DataIntegrityViolationException ex){
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("This username has already been taken");
+        }
+
     }
 
     @PostMapping("/login")

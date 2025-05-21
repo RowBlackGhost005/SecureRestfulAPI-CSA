@@ -1,11 +1,8 @@
 package com.marin.Secure.Restful.API.controller;
 
 import com.marin.Secure.Restful.API.dto.UserDataDTO;
-import com.marin.Secure.Restful.API.entities.User;
 import com.marin.Secure.Restful.API.exception.NoUserFoundException;
 import com.marin.Secure.Restful.API.service.UserService;
-import jakarta.websocket.server.PathParam;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
