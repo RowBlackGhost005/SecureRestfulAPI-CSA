@@ -1,5 +1,6 @@
 package com.marin.Secure.Restful.API.config;
 
+import com.marin.Secure.Restful.API.interceptor.RateLimitInterceptor;
 import com.marin.Secure.Restful.API.security.JwtAuthenticationFilter;
 import com.marin.Secure.Restful.API.security.JwtUtil;
 import com.marin.Secure.Restful.API.service.CustomUserDetailsService;
@@ -32,7 +33,7 @@ public class SecurityConfig {
         return http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/register" , "/api/auth/login").permitAll()
+                        .requestMatchers("/api/auth/**").permitAll()
                         //.requestMatchers(HttpMethod.GET , "/api/users").hasAuthority("ROLE_USER")
                         .anyRequest().authenticated()
 

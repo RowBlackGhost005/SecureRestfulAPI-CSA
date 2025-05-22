@@ -76,6 +76,12 @@
 			<version>8.0.0.Final</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.github.vladimir-bukhtoyarov</groupId>
+			<artifactId>bucket4j-core</artifactId>
+			<version>8.0.1</version>
+		</dependency>
+
 
 	</dependencies>
 
