@@ -4,6 +4,9 @@ import com.marin.Secure.Restful.API.dto.UserRegistryDTO;
 import com.marin.Secure.Restful.API.security.JwtUtil;
 import com.marin.Secure.Restful.API.service.CustomUserDetailsService;
 import com.marin.Secure.Restful.API.service.UserService;
+import io.github.bucket4j.Bandwidth;
+import io.github.bucket4j.Bucket;
+import io.github.bucket4j.Refill;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -17,21 +20,27 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.Duration;
+
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
 
-    @Autowired
-    UserService userService;
+    private final UserService userService;
+
+    private final AuthenticationManager authenticationManager;
+
+    private final CustomUserDetailsService userDetailsService;
+
+    private final JwtUtil jwtUtil;
 
     @Autowired
-    AuthenticationManager authenticationManager;
-
-    @Autowired
-    CustomUserDetailsService userDetailsService;
-
-    @Autowired
-    JwtUtil jwtUtil;
+    public AuthController(UserService userService, AuthenticationManager authenticationManager, CustomUserDetailsService userDetailsService, JwtUtil jwtUtil) {
+        this.userService = userService;
+        this.authenticationManager = authenticationManager;
+        this.userDetailsService = userDetailsService;
+        this.jwtUtil = jwtUtil;
+    }
 
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@Valid @RequestBody UserRegistryDTO userDTO){
