@@ -30,7 +30,7 @@ This project is part of CSA and was developed for testing the implementation of 
 * 4.2. Replace `#YourDBUsername` with the username of your database user.
 * 4.3. Replace `#YourUserDBPassword` with the password of your database user.
 * 4.4. Replace `#Your-Secret-JWT-Key` with the key you want to use to sign your JWT tokens. **NOTE: Your key must be at least 16 characters long due to the signing algorithm**
-	4.5 Replace `#AdminUsername` with the username to use to create the Admin account.
+* 4.5 Replace `#AdminUsername` with the username to use to create the Admin account.
 * 4.6 Replace `#AdminPassword` with the password to use to create the Admin account.
 6. Execute the main file `SecureRestfulApiApplication.java` located under /src/main/java/
 7. Wait till the embedded tomcat server and first startup configurations take place.
