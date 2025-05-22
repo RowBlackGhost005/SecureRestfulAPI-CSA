@@ -16,6 +16,9 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
+/**
+ * Establishes the logic for extraction and validation of JWT tokens sent from the Clients to grant them access to this API operations.
+ */
 @Component
 @Order(SecurityProperties.DEFAULT_FILTER_ORDER)
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -29,11 +32,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         this.userDetailService = userDetailService;
     }
 
+    /**
+     * Determines the request has a barer token.
+     * If the request has a token it extracts the subject of the token and tries to match it with a registered user in the database,
+     * if the token contains a registered user it then loads its credentials, and it grants him access.
+     *
+     * If a request has no token is let pass and will only work for auth requests.
+     */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
         String token = extractJwtFromRequest(request);
-
 
         if (token != null) {
             String username = jwtUtil.extractUsername(token);
@@ -48,9 +57,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         }
+
         filterChain.doFilter(request, response);
     }
 
+    /**
+     * Extracts the JWT token from the request header and returns it.
+     *
+     * @returns JWT token.
+     */
     private String extractJwtFromRequest(HttpServletRequest request){
         String authorizationHeader = request.getHeader("Authorization");
 

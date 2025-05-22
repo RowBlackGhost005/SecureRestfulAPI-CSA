@@ -6,6 +6,9 @@ import org.springframework.stereotype.Service;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * Service for managing the clients requests counts using their IPs as identifiers.
+ */
 @Service
 public class RateLimiterService {
 
@@ -15,6 +18,11 @@ public class RateLimiterService {
         return cache.computeIfAbsent(identifier , this::newBucket);
     }
 
+    /**
+     * Returns a bucket of the client identified by its ID
+     *
+     * @return Bucket of tokens of the client
+     */
     private Bucket newBucket(String identifier){
 
         return Bucket.builder().addLimit(RateLimit.CLIENT.getLimit()).build();

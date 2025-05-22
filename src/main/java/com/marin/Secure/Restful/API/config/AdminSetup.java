@@ -11,6 +11,11 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+/**
+ * Manages the initial setup of the admin account.
+ *
+ * This component will execute only ONCE in the initial deployment of the app and its credentials should be changed
+ */
 @Component
 public class AdminSetup implements CommandLineRunner {
 

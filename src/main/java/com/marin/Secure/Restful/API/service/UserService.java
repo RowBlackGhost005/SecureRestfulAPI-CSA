@@ -7,6 +7,9 @@ import com.marin.Secure.Restful.API.exception.NoUserFoundException;
 
 import java.util.List;
 
+/**
+ * Interface for the User service
+ */
 public interface UserService {
 
     User registerUser(UserRegistryDTO userRegistry);

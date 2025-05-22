@@ -5,6 +5,12 @@ import jakarta.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Entity of User
+ * A user represents an authenticated client in this API
+ *
+ * This entity is mapped to 'Users' table in the database, and it should never store or carry a password in plain text
+ */
 @Entity
 @Table(name = "users")
 public class User {

@@ -13,6 +13,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 
+/**
+ * Service for managing UserDetails
+ * This class encapsulates the logic of wrapping Users in UserDetails for usage in authentication.
+ */
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
@@ -23,6 +27,13 @@ public class CustomUserDetailsService implements UserDetailsService {
         this.userRepository = userRepository;
     }
 
+    /**
+     * Returns the User Details of a registered User using its username.
+     * This User Details is created using data of an User stored in database.
+     *
+     * @return UserDetails Details of the user if found.
+     * @throws UsernameNotFoundException If the username doesn't exist
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
