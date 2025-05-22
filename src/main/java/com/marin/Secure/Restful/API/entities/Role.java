@@ -2,6 +2,12 @@ package com.marin.Secure.Restful.API.entities;
 
 import jakarta.persistence.*;
 
+/**
+ * Entity of Role
+ * A role determines the permissions a client has inside the API.
+ *
+ * This entity is mapped to 'Roles' table in the database and its name MUST be stored in UPPER CASE.
+ */
 @Entity
 @Table(name = "Roles")
 public class Role {

@@ -10,6 +10,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+/**
+ * Component that sits between a received request to the API and the business logic and determines if the client
+ * has enough requests left to grant him access to this API.
+ *
+ *  Currently, this rate limit only applies to auth requests.
+ */
 @Component
 public class RateLimitInterceptor implements HandlerInterceptor {
 
@@ -20,6 +26,12 @@ public class RateLimitInterceptor implements HandlerInterceptor {
         this.limiterService = limiter;
     }
 
+    /**
+     * Determines if the client has enough requests left to perform the requested operation in this API.
+     *
+     * If the client has enough requests tokens the request goes without further problems.
+     * If the client doesn't have enough requests tokens it returns to the client a 429 (Too many Requests) code.
+     */
     @Override
     public boolean preHandle(HttpServletRequest request , HttpServletResponse response , Object handler) throws Exception {
 

@@ -5,6 +5,9 @@ import io.github.bucket4j.Refill;
 
 import java.time.Duration;
 
+/**
+ * Enum for establishing the bandwidth (limit of requests and its refill period) of the different types of clients of the API
+ */
 public enum RateLimit {
 
     CLIENT {

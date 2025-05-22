@@ -14,6 +14,9 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Implementation of the User Service for managing operations related to the User
+ */
 @Service
 public class UserServiceImp implements UserService {
 
@@ -27,6 +30,11 @@ public class UserServiceImp implements UserService {
     private PasswordEncoder passwordEncoder;
 
 
+    /**
+     * Registers a User in the database but first encodes its password using Bcrypt
+     *
+     * @return User persisted in the database
+     */
     @Override
     public User registerUser(UserRegistryDTO userRegistry) {
         User user = new User();
@@ -40,11 +48,20 @@ public class UserServiceImp implements UserService {
         return userRepository.save(user);
     }
 
+    /**
+     * Deletes the User from the database whose User ID matches the given as parameter.
+     */
     @Override
     public void deleteUser(int id) {
         userRepository.deleteById(id);
     }
 
+    /**
+     * Fetches a User with a username as given as parameter and if found returns its UserDataDTO representation.
+     *
+     * @throws NoUserFoundException Exception if no user with such username doesn't exist.
+     * @return UserDataDTO UserDTO for exposing to the controllers.
+     */
     @Override
     public UserDataDTO fetchUserByName(String username) throws NoUserFoundException {
         User user = userRepository.findByUsername(username).orElseThrow(() -> new NoUserFoundException("No user with such username"));
@@ -52,6 +69,11 @@ public class UserServiceImp implements UserService {
         return new UserDataDTO(user.getId() , user.getUsername());
     }
 
+    /**
+     * Fetches all Users registered in the database and converts them to UserDataDTO before storing them in a List to return.
+     *
+     * @return List UserDataDTO of all registered Users
+     */
     @Override
     public List<UserDataDTO> fetchAllUsers() {
         List<User> usersDB = userRepository.findAll();

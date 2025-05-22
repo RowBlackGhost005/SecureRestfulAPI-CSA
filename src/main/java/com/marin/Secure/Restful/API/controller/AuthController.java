@@ -7,6 +7,9 @@ import com.marin.Secure.Restful.API.service.UserService;
 import io.github.bucket4j.Bandwidth;
 import io.github.bucket4j.Bucket;
 import io.github.bucket4j.Refill;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -20,8 +23,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.Duration;
-
+/**
+ * Endpoint for authentication of clients
+ */
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -43,6 +47,12 @@ public class AuthController {
     }
 
     @PostMapping("/register")
+    @Operation(summary = "Register an user in the API" , description = "Registers a user credentials to use them to access this API")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200" , description = "User registered successfully"),
+            @ApiResponse(responseCode = "409" , description = "Username already taken"),
+            @ApiResponse(responseCode = "429" , description = "Too many registration attempts")
+    })
     public ResponseEntity<String> registerUser(@Valid @RequestBody UserRegistryDTO userDTO){
 
         try{
@@ -55,6 +65,12 @@ public class AuthController {
     }
 
     @PostMapping("/login")
+    @Operation(summary = "Request access to the API" , description = "Request and grant access to the API if the credentials given in the body are valid")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200" , description = "Access granted with its JWT Token returned"),
+            @ApiResponse(responseCode = "401" , description = "Bad credentials"),
+            @ApiResponse(responseCode = "429" , description = "Too many login attempts")
+    })
     public ResponseEntity<String> login(@RequestBody UserRegistryDTO loginRequest) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 loginRequest.username(), loginRequest.password()));

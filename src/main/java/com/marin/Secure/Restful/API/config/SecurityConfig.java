@@ -18,6 +18,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+/**
+ *  Manages the security of the API establishing rules for resource access and provides required functionality for security within the app.
+ */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -28,12 +31,17 @@ public class SecurityConfig {
     @Autowired
     private CustomUserDetailsService userDetailsService;
 
+    /**
+     * Establishes the security chain for the API requests.
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/swagger-ui/**").permitAll()
+                        .requestMatchers("/v3/api-docs/**").permitAll()
                         //.requestMatchers(HttpMethod.GET , "/api/users").hasAuthority("ROLE_USER")
                         .anyRequest().authenticated()
 
@@ -43,11 +51,21 @@ public class SecurityConfig {
                 .build();
     }
 
+    /**
+     * Returns a password encoder to be used to encode all user's passwords sent by the clients.
+     *
+     * @return The current password encoder to use in this app
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     * Returns the authentication manager of this app for management of user credentials composed by Username and Password
+     *
+     * @return Authentication Manager of the app.
+     */
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
