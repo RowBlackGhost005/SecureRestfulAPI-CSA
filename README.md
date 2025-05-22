@@ -88,5 +88,5 @@ Due to the current state of the API there is no endpoint for promoting Users to 
 
 In later versions of this API there will be endpoints for promoting Users and more functionallity for Admins.
 
-#Credits
+# Credits
 Developed by: Luis Marin
